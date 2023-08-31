@@ -158,7 +158,7 @@ public class MavenResolver implements Resolver {
 
     consoleLog.setPhase("Gathering direct dependency coordinates");
     List<DependencyNode> directDependencies =
-        resolveBaseDependencies(system, session, repositories, fakeRoot, amendedDeps);
+        resolveBaseDependencies(system, session, repositories, fakeRoot, managedDependencies, amendedDeps);
 
     List<Exception> exceptions = errors.getExceptions();
     if (!exceptions.isEmpty()) {
@@ -299,16 +299,18 @@ public class MavenResolver implements Resolver {
   }
 
   private List<DependencyNode> resolveBaseDependencies(
-      RepositorySystem system,
-      RepositorySystemSession session,
-      Collection<RemoteRepository> repositories,
-      Artifact root,
-      List<Dependency> allDependencies) {
+          RepositorySystem system,
+          RepositorySystemSession session,
+          Collection<RemoteRepository> repositories,
+          Artifact root,
+          List<Dependency> managedDependencies,
+          List<Dependency> allDependencies) {
 
     CollectRequest collectRequest = new CollectRequest();
     collectRequest.setRootArtifact(root);
     collectRequest.setRequestContext(JavaScopes.RUNTIME);
 
+    collectRequest.setManagedDependencies(managedDependencies);
     collectRequest.setDependencies(allDependencies);
 
     for (RemoteRepository repository : repositories) {
