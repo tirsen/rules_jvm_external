@@ -64,20 +64,6 @@ public class CoordinatesVisitor implements DependencyArtifactsVisitor {
       return;
     }
 
-    Collection<? extends DependencyGraphEdge> edges = to.getIncomingEdges();
-    edges.forEach(
-        edge -> {
-          System.err.println(edge);
-          Dependency dep = edge.getOriginalDependency();
-          if (dep instanceof ExternalModuleDependency) {
-            ExternalModuleDependency emd = (ExternalModuleDependency) dep;
-            String requiredVersion = emd.getVersionConstraint().getRequiredVersion();
-            System.err.printf(
-                "%s:%s:%s -> %s%n",
-                dep.getGroup(), dep.getName(), dep.getVersion(), requiredVersion);
-          }
-        });
-
     // The root node of the graph is a project, but all other nodes should be dependencies we want
     // to track
     Holder toHolder = getNode(to.getNodeId());
@@ -138,6 +124,11 @@ public class CoordinatesVisitor implements DependencyArtifactsVisitor {
 
     public void setCoordinates(Coordinates coordinates) {
       this.coordinates = coordinates;
+    }
+
+    @Override
+    public String toString() {
+      return coordinates.toString();
     }
   }
 }
