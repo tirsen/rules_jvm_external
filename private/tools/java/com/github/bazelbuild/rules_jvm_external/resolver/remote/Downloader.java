@@ -27,9 +27,7 @@ import java.net.URI;
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
+import java.nio.file.*;
 import java.time.Duration;
 import java.util.Collection;
 import java.util.Set;
@@ -209,6 +207,9 @@ public class Downloader {
           BufferedOutputStream bos = new BufferedOutputStream(os)) {
         response.body().transferTo(bos);
       }
+    } catch (FileAlreadyExistsException e) {
+      // Race condition, file already downloaded
+      return path;
     } catch (IOException e) {
       throw new UncheckedIOException(e);
     }
