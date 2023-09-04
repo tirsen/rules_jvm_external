@@ -252,6 +252,7 @@ public class GradleResolver implements Resolver {
       System.err.println("Unable to resolve inputs");
       for (UnresolvedDependency failure : failures) {
         LOG.warning(failure.getProblem().getMessage());
+        failure.getProblem().printStackTrace(System.err);
       }
       throw new IllegalStateException("Unable to resolve inputs");
     }
