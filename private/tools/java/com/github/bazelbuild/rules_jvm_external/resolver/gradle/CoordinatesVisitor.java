@@ -35,7 +35,7 @@ public class CoordinatesVisitor implements DependencyArtifactsVisitor {
   }
 
   public Graph<Coordinates> getDependencyGraph() {
-    MutableGraph<Coordinates> toReturn = GraphBuilder.directed().build();
+    MutableGraph<Coordinates> toReturn = GraphBuilder.directed().allowsSelfLoops(true).build();
 
     graph.nodes().stream()
         .filter(h -> h.coordinates != null)
