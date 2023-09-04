@@ -31,7 +31,7 @@ public class CoordinatesVisitor implements DependencyArtifactsVisitor {
 
   public CoordinatesVisitor(VariantSelector selector) {
     this.selector = Objects.requireNonNull(selector, "Selector must be set");
-    this.graph = directed().build();
+    this.graph = directed().allowsSelfLoops(true).build();
   }
 
   public Graph<Coordinates> getDependencyGraph() {
